@@ -1,13 +1,11 @@
 # Student Management System
 
-Console-based Java application for managing student records and generating SQL analytics with MySQL and JDBC.
+> Console-based Java application for managing student records and generating SQL analytics with MySQL and JDBC.
 
 [![Java](https://img.shields.io/badge/Java-21-ED8B00?style=flat-square)](#)
 [![Database](https://img.shields.io/badge/Database-MySQL-4479A1?style=flat-square)](https://www.mysql.com/)
 
 ---
-
-## Preview
 
 <div align="center">
 
