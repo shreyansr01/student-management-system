@@ -6,52 +6,33 @@ import com.student.management.service.StudentManager;
 import java.util.Scanner;
 
 /**
- * The entry point and control center of our program.
- * 
- * Think of this class like a friendly receptionist or a TV menu:
- * 1. It welcomes the user with a nice banner.
- * 2. It continuously displays a list of options (like adding a student or viewing reports).
- * 3. It waits for the user to type their choice, converts it to a number, and delegates 
- *    the actual work to the StudentManager service layer.
- * 
- * For beginners: This class contains the special "main" method, which is where Java starts 
- * running our application. It uses a "while(true)" loop to keep the menu active so the program 
- * doesn't close after doing just one thing.
+ * Application entry point providing the interactive console menu interface.
  */
 public class Main
 {
 
     public static void main(String[] args)
     {
-        // A Scanner reads what the user types. StudentManager is the brain that does the actual work.
         Scanner scanner = new Scanner(System.in);
         StudentManager studentManager = new StudentManager();
 
-        // Draws the beautiful welcome title card on the screen.
         showHeader();
 
-        // An infinite loop! This keeps the menu running over and over until the user chooses to exit (0).
         while (true)
         {
-            // Show the numbered menu of student operations and reports.
             displayMenu();
-
-            // Read what the user typed and remove any accidental leading or trailing spaces.
             String input = scanner.nextLine().trim();
 
             try
             {
-                // Convert the typed text (String) into a whole number (int).
                 int choice = Integer.parseInt(input);
 
-                // If the user selects 0, close the program nicely.
                 if (choice == 0)
                 {
                     exitApplication(scanner);
-                    return; // Exits the main method, stopping the program!
+                    return;
                 }
 
-                // Route the number chosen by the user to the correct operation.
                 handleChoice(choice, scanner, studentManager);
             }
             catch (NumberFormatException e)
@@ -95,12 +76,11 @@ public class Main
     // ======================== Menu Dispatcher ========================
 
     /**
-     * Acts as a switcher/router. It takes the number chosen by the user and calls the correct 
-     * action in our StudentManager brain.
+     * Routes the selected menu option to the corresponding operation.
      *
-     * @param choice  The menu option number chosen by the user (1 to 11)
-     * @param scanner The Scanner object to read subsequent inputs inside the actions
-     * @param manager Our StudentManager service instance
+     * @param choice  menu option number
+     * @param scanner input scanner
+     * @param manager service manager
      */
     private static void handleChoice(int choice, Scanner scanner, StudentManager manager)
     {

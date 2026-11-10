@@ -7,22 +7,12 @@ import java.util.Properties;
 import java.io.InputStream;
 
 /**
- * Helps our program talk to the database (where all student records are saved).
- * 
- * Think of this class like a telephone operator. When our program wants to save or look up 
- * a student, it asks DBConnection to "connect the call" to the database.
- * 
- * For beginners: This class reads the database login credentials (like the address, username, 
- * and password) from a configuration file called 'database.properties' once when the program 
- * starts, and then creates secure pathways (Connections) to talk to the database.
+ * Utility for establishing database connections.
  */
 public class DBConnection
 {
-    // A dictionary (Properties) that holds the database URL, username, and password.
     private static final Properties props = new Properties();
 
-    // A "static block" that runs automatically exactly once when this class is first loaded.
-    // It reads 'database.properties' and loads the login info so we don't have to do it repeatedly.
     static
     {
         try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("database.properties"))
@@ -33,23 +23,20 @@ public class DBConnection
             }
             else
             {
-                throw new RuntimeException("Failed to load database.properties file.");
+                throw new RuntimeException("Failed to locate database.properties in classpath.");
             }
         }
         catch (Exception e)
         {
-            e.printStackTrace();
-            throw new RuntimeException("Error loading database properties.", e);
+            throw new RuntimeException("Error loading database configuration.", e);
         }
     }
 
     /**
-     * Establishes and returns a new, active connection to the database.
-     * 
-     * Think of this like opening a secure pipeline or a door to the database so we can send SQL commands.
+     * Obtains an active database connection.
      *
-     * @return An active Connection object to run queries
-     * @throws SQLException If database login details are missing or the database server is offline
+     * @return active {@link Connection} instance
+     * @throws SQLException if connection credentials are missing or database server is unreachable
      */
     public static Connection getConnection() throws SQLException
     {
@@ -57,10 +44,9 @@ public class DBConnection
         String username = props.getProperty("db.username");
         String password = props.getProperty("db.password");
 
-        // Make sure we have a valid database URL and credentials in the properties file.
         if (url == null || username == null || password == null)
         {
-            throw new SQLException("Database credentials are missing in the properties file.");
+            throw new SQLException("Database credentials are missing in database.properties.");
         }
 
         return DriverManager.getConnection(url, username, password);
